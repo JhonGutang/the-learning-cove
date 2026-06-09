@@ -1,87 +1,165 @@
-# Welcome to React Router!
+# The Learning Cove
 
-A modern, production-ready template for building full-stack React applications using React Router.
+A monorepo-based CRM system for documenting and sharing software engineering learnings and insights.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Project Overview
 
-## Features
+The Learning Cove is a knowledge management system designed for developers to create, organize, and share rich text content about learnings from their experiences handling projects. The system allows for saving drafts and publishing content for broader visibility.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+### Core Features
+
+- **Rich Text Content Creation** – Write and format technical content
+- **Content Management** – Save drafts and manage visibility
+- **Database-backed Storage** – Persistent storage of all content
+- **Blog-style Publishing** – Share learnings with others
+
+## Architecture
+
+This is a **monorepo** project built with:
+
+- **[pnpm](https://pnpm.io/)** – Fast, disk space-efficient package manager
+- **[Turbo](https://turbo.build/)** – High-performance build system for monorepos
+
+### Project Structure
+
+```
+the-learning-cove/
+├── apps/
+│   ├── frontend/          # React Router frontend application
+│   └── backend/           # Backend API (coming soon)
+├── docs/                  # Project documentation
+├── package.json           # Root workspace configuration
+├── turbo.json             # Turbo build configuration
+└── pnpm-workspace.yaml    # pnpm workspace configuration
+```
 
 ## Getting Started
 
+### Prerequisites
+
+- **Node.js** – v18 or higher
+- **pnpm** – v10.12.1 or higher (can be installed via `npm install -g pnpm`)
+
 ### Installation
 
-Install the dependencies:
-
+1. Clone the repository:
 ```bash
-npm install
+git clone <repository-url>
+cd the-learning-cove
 ```
 
-### Development
-
-Start the development server with HMR:
-
+2. Install dependencies:
 ```bash
-npm run dev
+pnpm install
 ```
 
-Your application will be available at `http://localhost:5173`.
+This command installs all dependencies for all packages in the monorepo.
 
-## Building for Production
+## Development
 
-Create a production build:
+### Running the Development Server
 
+Start all development servers:
 ```bash
-npm run build
+pnpm dev
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
+Run only the frontend development server:
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+pnpm dev:frontend
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+The frontend will start on the port specified in `apps/frontend/.env` (default: `5137`).
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+### Building
 
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+Build all applications:
+```bash
+pnpm build
 ```
 
-## Styling
+### Type Checking
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+Run TypeScript type checks:
+```bash
+pnpm typecheck
+```
 
----
+## Apps
 
-Built with ❤️ using React Router.
+### Frontend (`apps/frontend/`)
+
+A modern React application built with:
+- **React Router** – Routing and SSR
+- **Vite** – Fast build tool
+- **TypeScript** – Type safety
+- **Tailwind CSS** – Utility-first styling
+- **Radix UI** – Accessible component library
+- **shadcn** – Component library
+
+**Key Files:**
+- `vite.config.ts` – Vite and dev server configuration
+- `.env` – Environment variables (PORT, API endpoints, etc.)
+- `app/` – Application source code
+
+### Backend (`apps/backend/`)
+
+Backend API application (planned).
+
+## Environment Variables
+
+### Frontend (`apps/frontend/.env`)
+
+```
+PORT=5137
+```
+
+Configure the port where the frontend dev server runs.
+
+## Turbo Configuration
+
+The `turbo.json` file defines task dependencies and caching behavior:
+
+- **build** – Depends on dependencies being built first
+- **dev** – Real-time development mode (no caching)
+- **typecheck** – Type checking with dependency resolution
+
+## Scripts Reference
+
+| Command | Description |
+|---------|-------------|
+| `pnpm install` | Install all dependencies |
+| `pnpm dev` | Start all dev servers |
+| `pnpm dev:frontend` | Start frontend dev server only |
+| `pnpm build` | Build all applications |
+| `pnpm typecheck` | Run TypeScript checks |
+
+## Contributing
+
+When working on this monorepo:
+
+1. Use `pnpm` for all package management
+2. Turbo caches build outputs automatically – use `--force` to rebuild
+3. Filter specific packages: `turbo run <task> --filter=@the-learning-cove/frontend`
+
+## Technology Stack
+
+### Frontend
+- React 19
+- React Router 7
+- TypeScript
+- Vite
+- Tailwind CSS
+- Radix UI Components
+
+### Build & Package Management
+- pnpm 10.12.1
+- Turbo 2.5.4+
+
+## License
+
+Private project
+
+## Support
+
+For more information, see the [docs](./docs/) directory.
