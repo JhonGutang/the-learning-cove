@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "@tailwindcss/typography";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/noto-serif";
@@ -143,4 +142,77 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  @apply focus:outline-none;
+}
+
+.ProseMirror h1 {
+  @apply text-3xl font-bold my-4;
+}
+
+.ProseMirror h2 {
+  @apply text-2xl font-bold my-3;
+}
+
+.ProseMirror h3 {
+  @apply text-xl font-bold my-2;
+}
+
+.ProseMirror p {
+  @apply my-2;
+}
+
+.ProseMirror ul {
+  @apply list-disc list-inside my-2 ml-4;
+}
+
+.ProseMirror ol {
+  @apply list-decimal list-inside my-2 ml-4;
+}
+
+.ProseMirror li {
+  @apply my-1;
+}
+
+.ProseMirror blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-2 text-muted-foreground;
+}
+
+.ProseMirror code {
+  @apply bg-muted px-1.5 py-0.5 rounded font-mono text-sm;
+}
+
+.ProseMirror pre {
+  @apply bg-muted p-4 rounded-lg overflow-auto my-2;
+}
+
+.ProseMirror pre code {
+  @apply bg-transparent p-0;
+}
+
+.ProseMirror hr {
+  @apply border-border my-4;
+}
+
+.ProseMirror a {
+  @apply text-primary underline hover:text-primary/80;
+}
+
+.ProseMirror strong {
+  @apply font-bold;
+}
+
+.ProseMirror em {
+  @apply italic;
+}
+
+.ProseMirror u {
+  @apply underline;
+}
+
+.ProseMirror s {
+  @apply line-through;
 }

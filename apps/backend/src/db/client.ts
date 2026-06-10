@@ -1,12 +1,32 @@
-import initSqlJs, { type Database } from 'sql.js';
+import initSqlJs, { Database as SqlJsDatabase } from 'sql.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'fs';
 
-let db: Database | null = null;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const dataDir = join(__dirname, '../../data');
+const dbPath = join(dataDir, 'learning-cove.db');
 
-export async function initDb() {
+let db: SqlJsDatabase | null = null;
+let SQL: any = null;
+
+export async function initDb(): Promise<SqlJsDatabase> {
   if (db) return db;
 
-  const SQL = await initSqlJs();
-  db = new SQL.Database();
+  if (!SQL) {
+    SQL = await initSqlJs();
+  }
+
+  mkdirSync(dataDir, { recursive: true });
+
+  // Load existing database from file or create new one
+  if (existsSync(dbPath)) {
+    const buffer = readFileSync(dbPath);
+    db = new SQL.Database(buffer);
+  } else {
+    db = new SQL.Database();
+  }
 
   db.run(`
     CREATE TABLE IF NOT EXISTS health_logs (
@@ -34,7 +54,14 @@ export async function initDb() {
   return db;
 }
 
-export function getDb(): Database {
+export function getDb(): SqlJsDatabase {
   if (!db) throw new Error('Database not initialized. Call initDb() first.');
   return db;
+}
+
+export function persistDb(): void {
+  if (!db) return;
+  const data = db.export();
+  const buffer = Buffer.from(data);
+  writeFileSync(dbPath, buffer);
 }

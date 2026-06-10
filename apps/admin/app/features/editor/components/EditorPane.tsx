@@ -11,10 +11,10 @@ export default function EditorPane({ editor }: EditorPaneProps) {
                 Editor
             </div>
             <Toolbar editor={editor} />
-            <div className="flex-1 overflow-auto p-4">
+            <div className="flex-1 overflow-auto p-6">
                 <EditorContent
                     editor={editor}
-                    className="h-full outline-none [&_.tiptap]:min-h-full [&_.tiptap]:outline-none [&_.tiptap]:text-sm [&_.tiptap]:leading-relaxed"
+                    className="max-w-3xl [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-96"
                 />
             </div>
         </div>

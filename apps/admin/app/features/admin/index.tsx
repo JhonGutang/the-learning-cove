@@ -63,6 +63,34 @@ export default function AdminPage() {
         }
     };
 
+    const handleStatusChange = async (blogId: number, newStatus: 'published' | 'draft' | 'archived') => {
+        try {
+            const blog = blogs.find(b => b.id === blogId);
+            if (!blog) return;
+
+            const response = await fetch(`http://localhost:3000/api/blogs/${blogId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: blog.title,
+                    description: blog.description,
+                    content: blog.content,
+                    tags: blog.tags,
+                    category: blog.category,
+                    status: newStatus,
+                    readTime: blog.readTime,
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to update blog status');
+            const updatedBlog = await response.json();
+            setBlogs(blogs.map(b => b.id === blogId ? updatedBlog : b));
+        } catch (error) {
+            console.error('Error updating blog status:', error);
+            throw error;
+        }
+    };
+
     const categories = Array.from(new Set(blogs.map(b => b.category).filter(Boolean))) as string[];
 
     const filteredBlogs = blogs.filter(blog => {
@@ -85,19 +113,19 @@ export default function AdminPage() {
                 <main className="flex-1 overflow-auto">
                     <div className="p-6 max-w-6xl mx-auto">
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">All Blogs</h1>
-                            <p className="text-slate-600 dark:text-slate-400">Manage and view all your published content</p>
+                            <h1 className="text-3xl font-bold text-foreground mb-2">All Blogs</h1>
+                            <p className="text-muted-foreground">Manage and view all your published content</p>
                         </div>
 
                         <div className="mb-6 space-y-4">
                             <div className="relative">
-                                <Search className="absolute left-3 top-3 text-slate-400" size={20} />
+                                <Search className="absolute left-3 top-3 text-muted-foreground" size={20} />
                                 <input
                                     type="text"
                                     placeholder="Search blogs by title or tags..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
+                                    className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                 />
                             </div>
 
@@ -105,7 +133,7 @@ export default function AdminPage() {
                                 <select
                                     value={selectedStatus}
                                     onChange={(e) => setSelectedStatus(e.target.value)}
-                                    className="flex-1 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
+                                    className="flex-1 px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                 >
                                     <option value="all">All Status</option>
                                     <option value="published">Published</option>
@@ -116,7 +144,7 @@ export default function AdminPage() {
                                 <select
                                     value={selectedCategory}
                                     onChange={(e) => setSelectedCategory(e.target.value)}
-                                    className="flex-1 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
+                                    className="flex-1 px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                 >
                                     <option value="all">All Categories</option>
                                     {categories.map((cat) => (
@@ -130,15 +158,15 @@ export default function AdminPage() {
 
                         {isLoading ? (
                             <div className="text-center py-12">
-                                <p className="text-slate-500 dark:text-slate-400">Loading blogs...</p>
+                                <p className="text-muted-foreground">Loading blogs...</p>
                             </div>
                         ) : filteredBlogs.length === 0 && blogs.length === 0 ? (
                             <div className="text-center py-12">
-                                <p className="text-slate-500 dark:text-slate-400">No blogs yet. Click the + button to create your first blog!</p>
+                                <p className="text-muted-foreground">No blogs yet. Click the + button to create your first blog!</p>
                             </div>
                         ) : filteredBlogs.length === 0 ? (
                             <div className="text-center py-12">
-                                <p className="text-slate-500 dark:text-slate-400">No blogs found matching your search.</p>
+                                <p className="text-muted-foreground">No blogs found matching your search.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -158,6 +186,7 @@ export default function AdminPage() {
                                         category={blog.category}
                                         readTime={blog.readTime}
                                         onClick={() => navigate(`/admin/editor/${blog.id}`)}
+                                        onStatusChange={(newStatus) => handleStatusChange(blog.id, newStatus)}
                                     />
                                 ))}
                             </div>

@@ -38,13 +38,13 @@ const CreateBlogDialog: React.FC<CreateBlogDialogProps> = ({ isOpen, onClose, on
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg w-full max-w-md">
-                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Create New Blog</h2>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-card rounded-lg shadow-lg w-full max-w-md">
+                <div className="flex items-center justify-between p-6 border-b border-border">
+                    <h2 className="text-xl font-bold text-card-foreground">Create New Blog</h2>
                     <button
                         onClick={onClose}
-                        className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
+                        className="p-1 hover:bg-muted rounded-md transition-colors text-muted-foreground"
                     >
                         <X size={20} />
                     </button>
@@ -52,13 +52,13 @@ const CreateBlogDialog: React.FC<CreateBlogDialogProps> = ({ isOpen, onClose, on
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     {error && (
-                        <div className="p-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 rounded-md text-sm">
+                        <div className="p-3 bg-destructive/10 text-destructive rounded-md text-sm">
                             {error}
                         </div>
                     )}
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        <label className="block text-sm font-medium text-foreground mb-2">
                             Title
                         </label>
                         <input
@@ -66,13 +66,13 @@ const CreateBlogDialog: React.FC<CreateBlogDialogProps> = ({ isOpen, onClose, on
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Enter blog title"
-                            className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
+                            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                             disabled={isLoading}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                        <label className="block text-sm font-medium text-foreground mb-2">
                             Description
                         </label>
                         <textarea
@@ -80,7 +80,7 @@ const CreateBlogDialog: React.FC<CreateBlogDialogProps> = ({ isOpen, onClose, on
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Enter blog description"
                             rows={4}
-                            className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100 resize-none"
+                            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                             disabled={isLoading}
                         />
                     </div>
@@ -89,14 +89,14 @@ const CreateBlogDialog: React.FC<CreateBlogDialogProps> = ({ isOpen, onClose, on
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-md text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                            className="flex-1 px-4 py-2 border border-border rounded-md text-foreground hover:bg-muted transition-colors"
                             disabled={isLoading}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-md hover:opacity-90 transition-opacity font-medium disabled:opacity-50"
+                            className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity font-medium disabled:opacity-50"
                             disabled={isLoading}
                         >
                             {isLoading ? 'Creating...' : 'Create'}

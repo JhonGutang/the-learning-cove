@@ -1,4 +1,4 @@
-import { getDb } from '~/db/client.js';
+import { getDb, persistDb } from '~/db/client.js';
 import { TABLES } from '~/db/schema.js';
 
 export async function getHealthStatus() {
@@ -7,6 +7,7 @@ export async function getHealthStatus() {
   try {
     const db = getDb();
     db.run(`INSERT INTO ${TABLES.HEALTH_LOGS} (status, timestamp) VALUES (?, ?)`, ['ok', timestamp]);
+    persistDb();
 
     return {
       status: 'ok',

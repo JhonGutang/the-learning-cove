@@ -8,7 +8,13 @@ export const app = express();
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? process.env.FRONTEND_URL || 'https://example.com'
-    : ['http://localhost:5173', 'http://localhost:3000'],
+    : (origin, callback) => {
+        if (!origin || origin.startsWith('http://localhost:')) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
   credentials: true,
 }));
 

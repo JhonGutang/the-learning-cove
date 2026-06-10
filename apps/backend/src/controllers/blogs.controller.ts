@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getDb } from '~/db/client.js';
+import { getDb, persistDb } from '~/db/client.js';
 import { TABLES, type Blog } from '~/db/schema.js';
 
 export const blogsRouter = Router();
@@ -68,6 +68,7 @@ blogsRouter.post('/', async (req: Request, res: Response) => {
     }
     stmt.free();
 
+    persistDb();
     res.status(201).json(blog);
   } catch (error) {
     console.error('Error creating blog:', error);
@@ -108,6 +109,7 @@ blogsRouter.put('/:id', async (req: Request, res: Response) => {
     }
     stmt.free();
 
+    persistDb();
     res.json(updated);
   } catch (error) {
     console.error('Error updating blog:', error);
@@ -131,6 +133,7 @@ blogsRouter.delete('/:id', async (req: Request, res: Response) => {
     }
 
     db.run(`DELETE FROM ${TABLES.BLOGS} WHERE id = ?`, [parseInt(id)]);
+    persistDb();
     res.json({ message: 'Blog deleted successfully' });
   } catch (error) {
     console.error('Error deleting blog:', error);

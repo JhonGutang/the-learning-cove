@@ -13,8 +13,8 @@ const AdminSidebar: React.FC = () => {
     ];
 
     return (
-        <aside className="w-56 shrink-0 border-r border-slate-200 dark:border-slate-700 flex flex-col">
-            <div className="p-4 text-lg font-semibold border-b border-slate-200 dark:border-slate-700">
+        <aside className="w-56 shrink-0 border-r border-border flex flex-col">
+            <div className="p-4 text-lg font-semibold border-b border-border text-foreground">
                 Admin Dashboard
             </div>
             <nav className="flex flex-col gap-1 p-2 flex-1">
@@ -24,8 +24,8 @@ const AdminSidebar: React.FC = () => {
                         className={cn(
                             "flex items-center gap-2 text-left px-3 py-2 rounded-md text-sm transition-colors",
                             location.pathname === path
-                                ? "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900"
-                                : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                                ? "bg-primary text-primary-foreground"
+                                : "text-foreground hover:bg-muted"
                         )}
                         onClick={() => navigate(path)}
                     >

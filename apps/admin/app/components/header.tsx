@@ -41,19 +41,19 @@ export default function Header({ title }: HeaderProps) {
         <header className="h-[8vh] w-full flex items-center justify-between px-6 shadow-sm bg-transparent">
             <div className="flex items-center gap-4">
                 {title && (
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{title}</h1>
+                    <h1 className="text-2xl font-bold text-foreground">{title}</h1>
                 )}
-                
+
             </div>
             <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center justify-center"
+                className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center"
                 aria-label="Toggle theme"
             >
                 {isDark ? (
-                    <Sun className="w-5 h-5 text-white" />
+                    <Sun className="w-5 h-5 text-foreground" />
                 ) : (
-                    <Moon className="w-5 h-5 text-slate-900" />
+                    <Moon className="w-5 h-5 text-foreground" />
                 )}
             </button>
         </header>
