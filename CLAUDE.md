@@ -116,6 +116,16 @@ app/
       index.tsx
     web-sockets/
       index.tsx
+    admin/
+      components/       # AdminSidebar, BlogCard, CreateBlogDialog, FloatingCreateButton, StatusConfirmModal
+      index.tsx
+    editor/
+      components/       # EditorPane, Toolbar
+      index.tsx
+    editor-preview/
+      index.tsx         # standalone preview page (reads from localStorage)
+    health-check/
+      index.tsx
   components/           # shared components used across features
     ui/                 # shadcn/ui primitives
     header.tsx
@@ -152,9 +162,8 @@ Dark/light toggle is handled entirely client-side in `app/components/header.tsx`
 - `/web-sockets` → `features/web-sockets` (WebSocket demo/testing)
 - `/health-check` → `features/health-check` (backend health status)
 - `/admin` → `features/admin` (blog management dashboard)
-- `/admin/editor` → `features/editor` (new blog editor)
-- `/admin/editor/:id` → `features/editor` (edit existing blog)
-- `/admin/editor/preview` → `features/editor-preview` (preview panel)
+- `/admin/editor/:id?` → `features/editor` (create or edit a blog; `:id` is optional)
+- `/admin/editor/preview` → `features/editor-preview` (standalone preview page, reads HTML from `localStorage`)
 
 ## System Features
 
@@ -163,41 +172,34 @@ Dark/light toggle is handled entirely client-side in `app/components/header.tsx`
 - **Search blogs** by title, description, or tags
 - **Filter by status** — Published, Draft, or Archived
 - **Filter by category** — Shows all available categories dynamically
-- **Create new blog** with quick-add dialog (defaults to Draft status)
+- **Create new blog** with quick-add dialog (defaults to Draft status, navigates straight to editor)
 - **Click to edit** any blog to open the rich-text editor
 - **Blog cards display:**
   - Title and excerpt
-  - Status badge (Published=green, Draft=yellow, Archived=gray)
+  - **Inline status dropdown** — clicking the status badge opens a dropdown to change status; a `StatusConfirmModal` confirmation dialog appears before applying the change
   - Category badge (blue)
   - Tags, creation date, and read time estimate
+- **Floating create button** for quick blog creation
+- **Sidebar navigation** for access to different sections
 
-### Blog Editor (`/admin/editor/:id`)
+### Blog Editor (`/admin/editor/:id?`)
 - **Rich-text editing** with TipTap editor
-  - Text formatting (bold, italic, underline, strikethrough)
-  - Headings, lists, code blocks, blockquotes
-  - Links and text alignment
-- **Split-pane layout**
-  - Left side: Editor with full formatting toolbar
-  - Right side: Live preview of rendered content
+  - Text formatting: Bold, Italic
+  - Headings: H1, H2, H3
+  - Links (prompt-based URL input)
+  - Text alignment: Left, Center, Right, Justify
+- **Single-pane layout** — full-width editor with formatting toolbar
 - **Auto-save functionality**
   - Saves automatically 5 seconds after you stop typing
   - Only saves if content has actually changed
-  - Shows "Saving..." indicator while saving
-  - Shows checkmark confirmation when save completes
-  - Auto-hides save status indicators after 2 seconds (like Google Docs)
-- **Metadata editing toolbar**
-  - **Status selector** — Draft, Published, or Archived
-  - **Category field** — Add or change blog category
-- **Blog metadata**
-  - Title, description, tags, read time estimate
-  - Creation and update timestamps
-  - All metadata auto-saves alongside content
+  - Shows "Saving…" spinner while saving
+  - Shows checkmark "Saved at HH:MM:SS" when save completes
+  - Auto-hides save status indicators after 2 seconds
+- **Manual save button** in the header toolbar
+- **Metadata bar** (shown when editing an existing blog)
+  - **Category field** — Add or change the blog category (auto-saves with content)
+- **Blog metadata** (title, description, tags, read time, status) is stored on the blog record and visible in the admin dashboard
 
-### Admin Dashboard Features
-- **Blog cards** with metadata display
-  - Title, excerpt, creation date
-  - Tags and estimated read time
-  - Responsive grid (1-3 columns based on screen size)
-- **Search & filter** across all blogs
-- **Floating create button** for quick blog creation
-- **Sidebar navigation** for access to different sections
+### Editor Preview (`/admin/editor/preview`)
+- Standalone full-page preview that renders HTML stored in `localStorage` under the key `editor-preview-html`
+- Uses Tailwind Typography (`prose`) for styled article rendering with dark-mode support
