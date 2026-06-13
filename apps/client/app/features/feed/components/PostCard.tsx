@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import type { Blog } from "~/lib/api";
+import ReactionBar from "./ReactionBar";
 
 export default function PostCard({ blog }: { blog: Blog }) {
   const tags = blog.tags ? blog.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
@@ -43,6 +44,7 @@ export default function PostCard({ blog }: { blog: Blog }) {
             <span>{date}</span>
             {blog.readTime ? <span>{blog.readTime} min read</span> : null}
           </div>
+          <ReactionBar blogId={blog.id} />
         </CardContent>
       </Card>
     </Link>

@@ -26,3 +26,16 @@ export async function getBlogById(id: string): Promise<Blog> {
   const { data } = await apiClient.get<Blog>(`/api/blogs/${id}`);
   return data;
 }
+
+export type ReactionType = 'heart' | 'wow';
+export type ReactionCounts = Record<ReactionType, number>;
+
+export async function getReactions(blogId: number): Promise<ReactionCounts> {
+  const { data } = await apiClient.get<ReactionCounts>(`/api/blogs/${blogId}/reactions`);
+  return data;
+}
+
+export async function sendReaction(blogId: number, type: ReactionType, delta: 1 | -1): Promise<ReactionCounts> {
+  const { data } = await apiClient.post<ReactionCounts>(`/api/blogs/${blogId}/reactions/${type}`, { delta });
+  return data;
+}

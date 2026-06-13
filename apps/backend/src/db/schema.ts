@@ -4,6 +4,7 @@
 export const TABLES = {
   HEALTH_LOGS: 'health_logs',
   BLOGS: 'blogs',
+  REACTIONS: 'reactions',
 } as const;
 
 export interface HealthLog {
@@ -13,6 +14,14 @@ export interface HealthLog {
 }
 
 export type BlogStatus = 'published' | 'draft' | 'archived';
+
+export type ReactionType = 'heart' | 'wow';
+
+export interface Reaction {
+  blogId: number;
+  type: ReactionType;
+  count: number;
+}
 
 export interface Blog {
   id: number;

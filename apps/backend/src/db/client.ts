@@ -37,6 +37,15 @@ export async function initDb(): Promise<SqlJsDatabase> {
   `);
 
   db.run(`
+    CREATE TABLE IF NOT EXISTS reactions (
+      blogId INTEGER NOT NULL,
+      type TEXT NOT NULL,
+      count INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY (blogId, type)
+    )
+  `);
+
+  db.run(`
     CREATE TABLE IF NOT EXISTS blogs (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
